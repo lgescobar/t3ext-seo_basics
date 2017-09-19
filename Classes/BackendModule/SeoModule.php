@@ -134,8 +134,9 @@ class SeoModule extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule {
 
 
 			// Add Javascript
-			$this->pObj->doc->getPageRenderer()->loadJquery();
-			$this->pObj->doc->getPageRenderer()->addJsFile(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('seo_basics') . 'Resources/Public/JavaScript/SeoModule.js');
+			$pagerenderer = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
+                        $pagerenderer->loadJquery();
+                        $pagerenderer->addJsFile(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath('seo_basics') . 'Resources/Public/JavaScript/SeoModule.js');
 
 
 			// render depth selector
@@ -176,10 +177,10 @@ class SeoModule extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule {
 
 
 			// Creating top icon; the current page
-			$HTML = \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIconForRecord('pages', $treeStartingRecord);
+			// $HTML = \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIconForRecord('pages', $treeStartingRecord); TODO: transfer to IconFactory
 			$tree->tree[] = array(
 				'row' => $treeStartingRecord,
-				'HTML' => $HTML
+				//'HTML' => $HTML
 			);
 
 			// Create the tree from starting point
@@ -359,7 +360,8 @@ class SeoModule extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule {
 		}
 
 		if ($this->hasAvailableLanguages) {
-			array_unshift($row1, '<td ' . ($cmd == 'edit' ? 'rowspan="2"' : '').'>' . \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon($this->sysLanguages[$item['sys_language']]['flagIcon']) . '</td>');
+			// TODO: rework to IconFactory
+			//array_unshift($row1, '<td ' . ($cmd == 'edit' ? 'rowspan="2"' : '').'>' . \TYPO3\CMS\Backend\Utility\IconUtility::getSpriteIcon($this->sysLanguages[$item['sys_language']]['flagIcon']) . '</td>');
 		}
 		if ($rowTitle) {
 			array_unshift($row1, $rowTitle);
