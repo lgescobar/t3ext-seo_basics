@@ -1,27 +1,37 @@
 {
-  "name": "b13/seo_basics",
-  "type": "typo3-cms-extension",
+  "name": "koweb/seo-basics",
   "description": "Basic SEO features for TYPO3",
-  "homepage": "https://github.com/b13/t3ext-seo_basics",
-  "license": ["MIT License"],
-  "keywords": ["TYPO3 CMS", "SEO Basics"],
+  "keywords": [
+    "TYPO3 CMS",
+    "SEO Basics"
+  ],
+  "homepage": "https://github.com/KO-Web/t3ext-seo_basics",
   "support": {
-    "issues": "https://github.com/b13/t3ext-seo_basics/issues"
+    "issues": "https://github.com/KO-Web/t3ext-seo_basics/issues"
   },
+  "authors": [
+    {
+      "name": "Luis Antonio García Escobar",
+      "email": "l.garcia@ko-web.net",
+      "role": "Developer"
+    }
+  ],
+  "license": "MIT License",
+  "type": "typo3-cms-extension",
   "require": {
-    "typo3/cms-core": ">=6.2.0,<9.0"
+    "php": "~7.0.0 || ~7.1.0",
+    "typo3/cms-core": "^8.7"
+  },
+  "replace": {
+    "seo_basics": "self.version",
+    "b13/seo_basics": "*"
   },
   "autoload": {
     "psr-4": {
       "B13\\SeoBasics\\": "Classes/"
     }
   },
-  "autoload-dev": {
-    "psr-4": {
-    }
-  },
   "suggest": {
-    "realurl": "*",
-    "cooluri": "*"
+    "realurl": "*"
   }
 }
