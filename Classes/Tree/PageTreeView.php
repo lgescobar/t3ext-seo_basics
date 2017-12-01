@@ -28,7 +28,7 @@ namespace B13\SeoBasics\Tree;
  ***************************************************************/
 
 use PDO;
-use TYPO3\CMS\Backend\Utility\IconUtility;
+use Doctrine\DBAL\Driver\Statement;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -82,7 +82,7 @@ class PageTreeView extends \TYPO3\CMS\Backend\Tree\View\PageTreeView {
 			end($this->tree);
 			// Get the key for this space
 			$treeKey = key($this->tree);
-			$LN = $a == $c ? 'blank' : 'line';
+			$LN = $a == $c ? 'clear' : 'line';
 			// If records should be accumulated, do so
 			if ($this->setRecs) {
 				$this->recs[$row['uid']] = $row;
@@ -93,9 +93,7 @@ class PageTreeView extends \TYPO3\CMS\Backend\Tree\View\PageTreeView {
 			$this->orig_ids_hierarchy[$depth][] = $row['_ORIG_uid'] ?: $row['uid'];
 
 			// Make a recursive call to the next level
-            /** @var IconFactory $iconFactory */
-            $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-            $HTML_depthData = $depthData . $iconFactory->getIcon('treeline-' . $LN, Icon::SIZE_SMALL)->render();
+            $HTML_depthData = $depthData . '<span class="treeline-icon treeline-icon-' . $LN . '"></span>';
 			if ($depth > 1 && $this->expandNext($newID) && !$row['php_tree_stop']) {
 				$nextCount = $this->getTree($newID, $depth - 1, $this->makeHTML ? $HTML_depthData : '', $blankLineCode . ',' . $LN, $row['_SUBCSSCLASS']);
 				if (count($this->buffer_idH)) {
@@ -147,7 +145,7 @@ class PageTreeView extends \TYPO3\CMS\Backend\Tree\View\PageTreeView {
 			}
 			return $row;
 		} else {
-			while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
+			while ($row = ($res instanceof Statement ? $res->fetch() : @$GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
 				if (is_array($row)) {
 					break;
 				}
