@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2017-12-16T21:32:39+00:00"
+          product-name="seo_basics">
+        <header/>
+        <body>
+
+            <!-- pages -->
+            <trans-unit id="pages.titletag">
+                <source>Title</source>
+            </trans-unit>
+            <trans-unit id="pages.canonicaltag">
+                <source>Canonical URL</source>
+            </trans-unit>
+            <trans-unit id="pages.tx_seo_robots">
+                <source>Robots</source>
+            </trans-unit>
+            <trans-unit id="pages.tx_seo_robots.I.0">
+                <source>No additional configuration</source>
+            </trans-unit>
+            <trans-unit id="pages.tx_seo_robots.I.1">
+                <source>noindex</source>
+            </trans-unit>
+            <trans-unit id="pages.tx_seo_robots.I.2">
+                <source>noindex,follow</source>
+            </trans-unit>
+            <trans-unit id="pages.tx_seo_robots.I.3">
+                <source>index,nofollow</source>
+            </trans-unit>
+
+        </body>
+    </file>
+</xliff>

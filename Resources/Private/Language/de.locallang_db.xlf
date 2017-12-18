@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2017-12-16T21:32:39+00:00"
+          target-language="de" product-name="seo_basics">
+        <header/>
+        <body>
+
+            <!-- pages -->
+            <trans-unit id="pages.titletag">
+                <target>Titel</target>
+            </trans-unit>
+            <trans-unit id="pages.tx_seo_robots.I.0">
+                <target>Keine zusätzliche Konfiguration</target>
+            </trans-unit>
+
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2017-12-16T21:32:39+00:00"
+          target-language="de" product-name="seo_basics">
+        <header/>
+        <body>
+
+            <trans-unit id="module.title">
+                <target>SEO-Management</target>
+            </trans-unit>
+
+            <trans-unit id="button.edit_seo_fields">
+                <target>SEO-Felder bearbeiten</target>
+            </trans-unit>
+            <trans-unit id="button.cancel">
+                <target>Abbrechen</target>
+            </trans-unit>
+            <trans-unit id="button.save">
+                <target>Speichern</target>
+            </trans-unit>
+
+            <trans-unit id="label.hide_shortcuts">
+                <target>Verweise ausblenden</target>
+            </trans-unit>
+            <trans-unit id="label.hide_disabled">
+                <target>Deaktivierte Seiten ausblenden</target>
+            </trans-unit>
+            <trans-unit id="label.hide_folders">
+                <target>Ordner ausblenden</target>
+            </trans-unit>
+            <trans-unit id="label.hide_not_in_menu">
+                <target>In Menüs verborgene Seiten ausblenden</target>
+            </trans-unit>
+            <trans-unit id="label.hide_expired">
+                <target>Abgelaufene Seiten ausblenden</target>
+            </trans-unit>
+            <trans-unit id="label.lang">
+                <target>Spr.</target>
+            </trans-unit>
+            <trans-unit id="label.url_path">
+                <target>URL-Pfad</target>
+            </trans-unit>
+
+        </body>
+    </file>
+</xliff>

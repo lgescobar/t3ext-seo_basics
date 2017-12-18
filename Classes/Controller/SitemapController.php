@@ -452,7 +452,7 @@ class SitemapController
             }
         }
 
-        $tree = GeneralUtility::makeInstance('B13\\SeoBasics\\Tree\\PageTreeView');
+        $tree = GeneralUtility::makeInstance('B13\\SeoBasics\\Tree\\PageTreeView'); // @todo
         $tree->addField('SYS_LASTCHANGED', 1);
         $tree->addField('crdate', 1);
         $tree->addField('no_search', 1);

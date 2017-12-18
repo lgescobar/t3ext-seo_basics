@@ -3,7 +3,13 @@
   "description": "Basic SEO features for TYPO3",
   "keywords": [
     "TYPO3 CMS",
-    "SEO Basics"
+    "SEO Basics",
+    "SEO",
+    "Management",
+    "Backend",
+    "Frontend",
+    "Module",
+    "Sitemap"
   ],
   "homepage": "https://github.com/KO-Web/t3ext-seo_basics",
   "support": {
@@ -16,7 +22,10 @@
       "role": "Developer"
     }
   ],
-  "license": "MIT License",
+  "license": [
+    "MIT",
+    "GPL-2.0+"
+  ],
   "type": "typo3-cms-extension",
   "require": {
     "php": "~7.0.0 || ~7.1.0",

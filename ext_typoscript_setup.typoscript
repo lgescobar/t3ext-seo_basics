@@ -1,0 +1,26 @@
+module.tx_seobasics {
+    persistence {
+        classes {
+            B13\SeoBasics\Domain\Model\SystemLanguage {
+                mapping {
+                    tableName = sys_language
+                    columns {
+                        title.mapOnProperty = title
+                    }
+                }
+            }
+        }
+    }
+
+    settings {
+        showTreeIcons = 0
+        showPageIcon = 1
+        showPageId = 0
+        cropTitleMaxChars = 50
+        columnWordBreak = 0
+        groupActions {
+            insertAbove = 1
+            insertBelow = 1
+        }
+    }
+}

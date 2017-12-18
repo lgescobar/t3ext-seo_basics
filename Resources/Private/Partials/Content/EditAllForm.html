@@ -1,0 +1,199 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:seo="http://typo3.org/ns/B13/SeoBasics/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:variable name="titleLabel"
+            value="{f:translate(key: 'LLL:EXT:seo_basics/Resources/Private/Language/locallang_db.xlf:pages.titletag')}"/>
+<f:variable name="keywordsLabel"
+            value="{f:translate(key: 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.keywords_formlabel')}"/>
+<f:variable name="descriptionLabel"
+            value="{f:translate(key: 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.description_formlabel')}"/>
+
+<f:comment><!-- Render common variables --></f:comment>
+<f:variable name="wordBreakClass" value="{f:if(condition: '{settings.columnWordBreak}', then: 'col-word-break')}"/>
+
+<f:for each="{systemLanguages}" as="systemLanguage">
+    <f:variable name="flagicon{systemLanguage.uid}">
+        <core:icon identifier="flags-{systemLanguage.flag}"/>
+    </f:variable>
+</f:for>
+
+<div class="table-fit">
+    <table id="seo" class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>
+                <f:translate key="LLL:EXT:lang/Resources/Private/Language/locallang_tca.xlf:pages"/>
+            </th>
+            <th class="text-center">
+                <f:translate key="label.lang"/>
+            </th>
+            <th>{titleLabel}</th>
+            <th>{keywordsLabel}</th>
+            <th>{descriptionLabel}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <f:for each="{pages}" as="page">
+            <f:if condition="{constraint.lang} == -1">
+                <f:then>
+                    <f:alias map="{languageOverlaysCount: '{f:count(subject: page.languageOverlays)}'}">
+                        <tr>
+                            <f:if condition="{languageOverlaysCount} > 0">
+                                <f:then>
+                                    <td rowspan="{seo:increment(value: languageOverlaysCount)}">
+                                </f:then>
+                                <f:else>
+                                    <td>
+                                </f:else>
+                            </f:if>
+                            <f:render partial="Content/Page" arguments="{page: page, settings: settings}"/>
+                            </td>
+                            <td class="text-center">
+                                <f:format.raw>{flagicon0}</f:format.raw>
+                            </td>
+                            <td class="{wordBreakClass}">
+                                <f:render section="InputField" arguments="{
+                                    value: page.row.tx_seo_titletag,
+                                    name: 'data[pages][{page.row.uid}][tx_seo_titletag]',
+                                    class: 'seo-title',
+                                    size: '43', maxlength: '100',
+                                    title: '{titleLabel}'}"/>
+                            </td>
+                            <td class="{wordBreakClass}">
+                                <f:render section="InputField" arguments="{
+                                    value: page.row.keywords,
+                                    name: 'data[pages][{page.row.uid}][keywords]',
+                                    class: 'seo-keywords',
+                                    size: '67', maxlength: '180',
+                                    title: '{keywordsLabel}'}"/>
+                            </td>
+                            <td class="{wordBreakClass}">
+                                <f:render section="InputField" arguments="{
+                                    value: page.row.description,
+                                    name: 'data[pages][{page.row.uid}][description]',
+                                    class: 'seo-description',
+                                    size: '120',
+                                    title: '{descriptionLabel}'}"/>
+                            </td>
+                        </tr>
+
+                        <f:comment><!-- Language overlays --></f:comment>
+                        <f:if condition="{languageOverlaysCount} > 0">
+                            <f:for each="{page.languageOverlays}" as="languageOverlay" key="index">
+                                <tr>
+                                    <td class="text-center">
+                                        <f:format.raw><seo:getProperty subject="flagicon{index}"/></f:format.raw>
+                                    </td>
+                                    <td class="{wordBreakClass}">
+                                        <f:render section="InputField" arguments="{
+                                            value: languageOverlay.row.tx_seo_titletag,
+                                            name: 'data[pages_language_overlay][{languageOverlay.row.uid}][tx_seo_titletag]',
+                                            class: 'seo-title',
+                                            size: '43', maxlength: '100',
+                                            title: '{titleLabel}'}"/>
+                                    </td>
+                                    <td class="{wordBreakClass}">
+                                        <f:render section="InputField" arguments="{
+                                            value: languageOverlay.row.keywords,
+                                            name: 'data[pages_language_overlay][{languageOverlay.row.uid}][keywords]',
+                                            class: 'seo-keywords',
+                                            size: '67', maxlength: '180',
+                                            title: '{keywordsLabel}'}"/>
+                                    </td>
+                                    <td class="{wordBreakClass}">
+                                        <f:render section="InputField" arguments="{
+                                            value: languageOverlay.row.description,
+                                            name: 'data[pages_language_overlay][{languageOverlay.row.uid}][description]',
+                                            class: 'seo-description',
+                                            size: '120',
+                                            title: '{descriptionLabel}'}"/>
+                                    </td>
+                                </tr>
+                            </f:for>
+                        </f:if>
+                    </f:alias>
+                </f:then>
+                <f:else if="{constraint.lang} == 0">
+                    <tr>
+                        <td>
+                            <f:render partial="Content/Page" arguments="{page: page, settings: settings}"/>
+                        </td>
+                        <td class="text-center">
+                            <f:format.raw>{flagicon0}</f:format.raw>
+                        </td>
+                        <td class="{wordBreakClass}">
+                            <f:render section="InputField" arguments="{
+                                value: page.row.tx_seo_titletag,
+                                name: 'data[pages][{page.row.uid}][tx_seo_titletag]',
+                                class: 'seo-title',
+                                size: '43', maxlength: '100',
+                                title: '{titleLabel}'}"/>
+                        </td>
+                        <td class="{wordBreakClass}">
+                            <f:render section="InputField" arguments="{
+                                value: page.row.keywords,
+                                name: 'data[pages][{page.row.uid}][keywords]',
+                                class: 'seo-keywords',
+                                size: '67', maxlength: '180',
+                                title: '{keywordsLabel}'}"/>
+                        </td>
+                        <td class="{wordBreakClass}">
+                            <f:render section="InputField" arguments="{
+                                value: page.row.description,
+                                name: 'data[pages][{page.row.uid}][description]',
+                                class: 'seo-description',
+                                size: '120',
+                                title: '{descriptionLabel}'}"/>
+                        </td>
+                    </tr>
+                </f:else>
+                <f:else if="{seo:getProperty(subject: page.languageOverlays, path: '{constraint.lang}')}">
+                    <tr>
+                        <td>
+                            <f:render partial="Content/Page" arguments="{page: page, settings: settings}"/>
+                        </td>
+                        <td class="text-center">
+                            <f:format.raw><seo:getProperty subject="flagicon{constraint.lang}"/></f:format.raw>
+                        </td>
+                        <td class="{wordBreakClass}">
+                            <f:render section="InputField" arguments="{
+                                value: '{seo:getProperty(subject: page.languageOverlays, path: \'{constraint.lang}.row.tx_seo_titletag\')}',
+                                name: 'data[pages_language_overlay][{seo:getProperty(subject: page.languageOverlays, path: \'{constraint.lang}.row.uid\')}][tx_seo_titletag]',
+                                class: 'seo-title',
+                                size: '43', maxlength: '100',
+                                title: '{titleLabel}'}"/>
+                        </td>
+                        <td class="{wordBreakClass}">
+                            <f:render section="InputField" arguments="{
+                                value: '{seo:getProperty(subject: page.languageOverlays, path: \'{constraint.lang}.row.keywords\')}',
+                                name: 'data[pages_language_overlay][{seo:getProperty(subject: page.languageOverlays, path: \'{constraint.lang}.row.uid\')}][keywords]',
+                                class: 'seo-keywords',
+                                size: '67', maxlength: '180',
+                                title: '{keywordsLabel}'}"/>
+                        </td>
+                        <td class="{wordBreakClass}">
+                            <f:render section="InputField" arguments="{
+                                value: '{seo:getProperty(subject: page.languageOverlays, path: \'{constraint.lang}.row.description\')}',
+                                name: 'data[pages_language_overlay][{seo:getProperty(subject: page.languageOverlays, path: \'{constraint.lang}.row.uid\')}][description]',
+                                class: 'seo-description',
+                                size: '120',
+                                title: '{descriptionLabel}'}"/>
+                        </td>
+                    </tr>
+                </f:else>
+            </f:if>
+        </f:for>
+        </tbody>
+    </table>
+</div>
+
+<f:section name="InputField">
+    <div>
+        <f:form.textfield name="{name}" value="{value}" size="{size}" maxlength="{maxlength}"
+                          title="{title}" class="form-control input-sm {class}"/>
+    </div>
+</f:section>
+
+</html>

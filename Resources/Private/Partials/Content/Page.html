@@ -1,0 +1,30 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:comment><!-- Icons --></f:comment>
+<f:if condition="{settings.showTreeIcons}">
+    <f:then>
+        <f:spaceless>
+            <f:if condition="{page.depthData}">
+                <f:format.raw>{page.depthData}</f:format.raw>
+            </f:if>
+            <f:format.raw>{page.HTML}</f:format.raw>
+        </f:spaceless>
+    </f:then>
+    <f:else if="{settings.showPageIcon}">
+        <f:format.raw>{page.CleanHTML}</f:format.raw>
+    </f:else>
+</f:if>
+
+<f:comment><!-- Title --></f:comment>
+<f:if condition="{settings.cropTitleMaxChars}">
+    <f:then>
+        <f:if condition="{settings.showPageId}">[{page.row.uid}]&nbsp;</f:if><span title="{page.row.title}">
+        <f:format.crop maxCharacters="{settings.cropTitleMaxChars}" append="&hellip;" respectWordBoundaries="false">{page.row.title}</f:format.crop>
+    </span>
+    </f:then>
+    <f:else>
+        <f:if condition="{settings.showPageId}">[{page.row.uid}]&nbsp;</f:if>{page.row.title}
+    </f:else>
+</f:if>
+
+</html>

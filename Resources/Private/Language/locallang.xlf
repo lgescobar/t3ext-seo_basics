@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+    <file source-language="en" datatype="plaintext" original="messages" date="2017-12-16T21:32:39+00:00"
+          product-name="seo_basics">
+        <header/>
+        <body>
+
+            <trans-unit id="module.title">
+                <source>SEO Management</source>
+            </trans-unit>
+
+            <trans-unit id="button.edit_seo_fields">
+                <source>Edit SEO fields</source>
+            </trans-unit>
+            <trans-unit id="button.cancel">
+                <source>Cancel</source>
+            </trans-unit>
+            <trans-unit id="button.save">
+                <source>Save</source>
+            </trans-unit>
+
+            <trans-unit id="label.hide_shortcuts">
+                <source>Hide shortcuts</source>
+            </trans-unit>
+            <trans-unit id="label.hide_disabled">
+                <source>Hide disabled pages</source>
+            </trans-unit>
+            <trans-unit id="label.hide_folders">
+                <source>Hide system folders</source>
+            </trans-unit>
+            <trans-unit id="label.hide_not_in_menu">
+                <source>Hide not in menu</source>
+            </trans-unit>
+            <trans-unit id="label.hide_expired">
+                <source>Hide expired</source>
+            </trans-unit>
+            <trans-unit id="label.lang">
+                <source>Lang.</source>
+            </trans-unit>
+            <trans-unit id="label.url_path">
+                <source>URL path</source>
+            </trans-unit>
+
+        </body>
+    </file>
+</xliff>

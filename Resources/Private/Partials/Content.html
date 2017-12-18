@@ -1,0 +1,136 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:seo="http://typo3.org/ns/B13/SeoBasics/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:comment><!-- Render common variables --></f:comment>
+<f:variable name="wordBreakClass" value="{f:if(condition: '{settings.columnWordBreak}', then: 'col-word-break')}"/>
+
+<f:for each="{systemLanguages}" as="systemLanguage">
+    <f:variable name="flagicon{systemLanguage.uid}">
+        <core:icon identifier="flags-{systemLanguage.flag}"/>
+    </f:variable>
+</f:for>
+
+<div class="table-fit">
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>
+                <f:translate key="LLL:EXT:lang/Resources/Private/Language/locallang_tca.xlf:pages"/>
+            </th>
+            <th class="text-center">
+                <f:translate key="label.lang"/>
+            </th>
+            <th>
+                <f:translate key="label.url_path"/>
+            </th>
+            <th>
+                <f:translate key="LLL:EXT:seo_basics/Resources/Private/Language/locallang_db.xlf:pages.titletag"/>
+            </th>
+            <th>
+                <f:translate key="LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.keywords_formlabel"/>
+            </th>
+            <th>
+                <f:translate key="LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.description_formlabel"/>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <f:for each="{pages}" as="page">
+            <f:if condition="{constraint.lang} == -1">
+                <f:then>
+                    <f:alias map="{languageOverlaysCount: '{f:count(subject: page.languageOverlays)}'}">
+                        <tr>
+                            <f:if condition="{languageOverlaysCount} > 0">
+                                <f:then><td rowspan="{seo:increment(value: languageOverlaysCount)}"></f:then>
+                                <f:else><td></f:else>
+                            </f:if>
+                                <f:render partial="Content/Page" arguments="{page: page, settings: settings}"/>
+                            </td>
+                            <td class="text-center">
+                                <f:format.raw>{flagicon0}</f:format.raw>
+                            </td>
+                            <td>{page.path}</td>
+                            <td class="{wordBreakClass}">
+                                {page.row.tx_seo_titletag}
+                            </td>
+                            <td class="{wordBreakClass}">
+                                {page.row.keywords}
+                            </td>
+                            <td class="{wordBreakClass}">
+                                {page.row.description}
+                            </td>
+                        </tr>
+
+                        <f:comment><!-- Language overlays --></f:comment>
+                        <f:if condition="{languageOverlaysCount} > 0">
+                            <f:for each="{page.languageOverlays}" as="languageOverlay" key="index">
+                                <tr>
+                                    <td class="text-center">
+                                        <f:format.raw><seo:getProperty subject="flagicon{index}"/></f:format.raw>
+                                    </td>
+                                    <td>{languageOverlay.path}</td>
+                                    <td class="{wordBreakClass}">
+                                        {languageOverlay.row.tx_seo_titletag}
+                                    </td>
+                                    <td class="{wordBreakClass}">
+                                        {languageOverlay.row.keywords}
+                                    </td>
+                                    <td class="{wordBreakClass}">
+                                        {languageOverlay.row.description}
+                                    </td>
+                                </tr>
+                            </f:for>
+                        </f:if>
+                    </f:alias>
+                </f:then>
+                <f:else if="{constraint.lang} == 0">
+                    <tr>
+                        <td>
+                            <f:render partial="Content/Page" arguments="{page: page, settings: settings}"/>
+                        </td>
+                        <td class="text-center">
+                            <f:format.raw>{flagicon0}</f:format.raw>
+                        </td>
+                        <td>{page.path}</td>
+                        <td class="{wordBreakClass}">
+                            {page.row.tx_seo_titletag}
+                        </td>
+                        <td class="{wordBreakClass}">
+                            {page.row.keywords}
+                        </td>
+                        <td class="{wordBreakClass}">
+                            {page.row.description}
+                        </td>
+                    </tr>
+                </f:else>
+                <f:else if="{seo:getProperty(subject: page.languageOverlays, path: '{constraint.lang}')}">
+                    <tr>
+                        <td>
+                            <f:render partial="Content/Page" arguments="{page: page, settings: settings}"/>
+                        </td>
+                        <td class="text-center">
+                            <f:format.raw><seo:getProperty subject="flagicon{constraint.lang}"/></f:format.raw>
+                        </td>
+                        <td>
+                            <seo:getProperty subject="{page.languageOverlays}" path="{constraint.lang}.path"/>
+                        </td>
+                        <td class="{wordBreakClass}">
+                            <seo:getProperty subject="{page.languageOverlays}" path="{constraint.lang}.row.tx_seo_titletag"/>
+                        </td>
+                        <td class="{wordBreakClass}">
+                            <seo:getProperty subject="{page.languageOverlays}" path="{constraint.lang}.row.keywords"/>
+                        </td>
+                        <td class="{wordBreakClass}">
+                            <seo:getProperty subject="{page.languageOverlays}" path="{constraint.lang}.row.description"/>
+                        </td>
+                    </tr>
+                </f:else>
+            </f:if>
+        </f:for>
+        </tbody>
+    </table>
+</div>
+
+</html>

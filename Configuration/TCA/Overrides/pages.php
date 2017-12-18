@@ -27,7 +27,7 @@ if (!defined('TYPO3_MODE')) {
  ***************************************************************/
 
 call_user_func(function ($extKey, $table) {
-    $lll = 'LLL:EXT:' . $extKey . '/Resources/Private/Language/db.xml:' . $table . '.';
+    $lll = 'LLL:EXT:' . $extKey . '/Resources/Private/Language/locallang_db.xlf:' . $table . '.';
 
     // Adding title tag field to pages TCA
     $additionalColumns = [
@@ -68,12 +68,19 @@ call_user_func(function ($extKey, $table) {
         ],
     ];
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('pages', $additionalColumns);
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($table, $additionalColumns);
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
-        'pages',
-        'tx_seo_titletag, tx_seo_canonicaltag, tx_seo_robots',
-        1,
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
+        $table,
+        'metatags',
+        'tx_seo_titletag, --linebreak--',
         'before:keywords'
+    );
+
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addFieldsToPalette(
+        $table,
+        'metatags',
+        '--linebreak--, tx_seo_canonicaltag, --linebreak--, tx_seo_robots',
+        'after:description'
     );
 }, 'seo_basics', 'pages');

@@ -1,0 +1,32 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<f:layout name="Default"/>
+
+<f:section name="Main">
+    <f:be.pageRenderer includeRequireJsModules="{0: 'TYPO3/CMS/SeoBasics/SeoModule'}"
+                       includeCssFiles="{0: '{f:uri.resource(path: \'Css/styles.css\')}'}"/>
+
+    <f:form object="{constraint}" action="saveAll" name="constraint">
+        <input type="hidden" name="formToken" value="{formToken}">
+        <f:render partial="Form/ConstrainProperties" arguments="{constraint: constraint}"/>
+
+        <f:if condition="{settings.groupActions.insertAbove}">
+            <f:render section="Actions"/>
+            <div class="divider"></div>
+        </f:if>
+
+        <f:render partial="Content/EditAllForm" arguments="{_all}"/>
+
+        <f:if condition="{settings.groupActions.insertBelow}">
+            <f:render section="Actions"/>
+        </f:if>
+    </f:form>
+</f:section>
+
+<f:section name="Actions">
+    <f:form.submit class="btn btn-primary" value="{f:translate(key: 'button.save')}"/>
+    <f:link.action action="index" class="btn btn-default">
+        <f:translate key="button.cancel"/>
+    </f:link.action>
+</f:section>
+
+</html>

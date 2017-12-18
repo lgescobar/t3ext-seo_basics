@@ -1,0 +1,51 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:form object="{constraint}" action="index" name="constraint" class="form-inline form-inline-spaced">
+    <fieldset>
+        <div class="form-group">
+            <f:form.select property="depth" options="{pageDepths}"
+                           additionalAttributes="{onchange: 'submit()'}"
+                           class="form-control input-sm"/>
+        </div>
+        <div class="form-group">
+            <f:form.select property="lang" options="{systemLanguages}"
+                           optionValueField="uid" optionLabelField="title"
+                           additionalAttributes="{onchange: 'submit()'}"
+                           class="form-control input-sm"/>
+        </div>
+    </fieldset>
+    <fieldset>
+        <div class="form-group">
+            <label>
+                <f:translate key="label.hide_shortcuts"/>:
+                <f:form.checkbox property="hideShortcuts" value="1" additionalAttributes="{onchange: 'submit()'}"/>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                <f:translate key="label.hide_disabled"/>:
+                <f:form.checkbox property="hideDisabled" value="1" additionalAttributes="{onchange: 'submit()'}"/>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                <f:translate key="label.hide_folders"/>:
+                <f:form.checkbox property="hideSysFolders" value="1" additionalAttributes="{onchange: 'submit()'}"/>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                <f:translate key="label.hide_not_in_menu"/>:
+                <f:form.checkbox property="hideNotInMenu" value="1" additionalAttributes="{onchange: 'submit()'}"/>
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                <f:translate key="label.hide_expired"/>:
+                <f:form.checkbox property="hideExpired" value="1" additionalAttributes="{onchange: 'submit()'}"/>
+            </label>
+        </div>
+    </fieldset>
+</f:form>
+
+</html>

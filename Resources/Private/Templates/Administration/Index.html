@@ -1,0 +1,33 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+<f:layout name="Default"/>
+
+<f:section name="Main">
+    <div>
+        <f:render partial="FilterForm" arguments="{_all}"/>
+    </div>
+
+    <div class="divider"></div>
+
+    <f:variable name="pageCount" value="{pages -> f:count()}"/>
+
+    <f:if condition="{settings.groupActions.insertAbove} && {pageCount} > 0">
+        <f:render section="EditAllButton" arguments="{constraint: constraint}"/>
+
+        <div class="divider"></div>
+    </f:if>
+
+    <f:render partial="Content" arguments="{_all}"/>
+
+    <f:if condition="{settings.groupActions.insertBelow} && {pageCount} > 0">
+        <f:render section="EditAllButton" arguments="{constraint: constraint}"/>
+    </f:if>
+</f:section>
+
+<f:section name="EditAllButton">
+    <f:form object="{constraint}" action="editAll" name="constraint">
+        <f:render partial="Form/ConstrainProperties" arguments="{constraint: constraint}"/>
+        <f:form.submit class="btn btn-default" value="{f:translate(key: 'button.edit_seo_fields')}"/>
+    </f:form>
+</f:section>
+
+</html>

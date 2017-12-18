@@ -1,97 +1,160 @@
 /***************************************************************
- *  Copyright notice - MIT License (MIT)
+ *  Copyright notice
  *
- *  (c) 2007-2014 Benni Mack <benni@typo3.org>
+ *  (c) 2017 KO-Web | Kai Ole Hartwig <mail@ko-web.net>
  *  All rights reserved
  *
- *  Permission is hereby granted, free of charge, to any person obtaining a copy
- *  of this software and associated documentation files (the "Software"), to deal
- *  in the Software without restriction, including without limitation the rights
- *  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- *  copies of the Software, and to permit persons to whom the Software is
- *  furnished to do so, subject to the following conditions:
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- *  The above copyright notice and this permission notice shall be included in
- *  all copies or substantial portions of the Software.
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
  *
- *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- *  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- *  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- *  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- *  THE SOFTWARE.
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
  ***************************************************************/
-/**
- * simple JavaScript functionality for highlighting text fields
- */
-;(function($) {
-	var seoColor = {
-		yellow: "#ffff70",
-		red: "#ff8040",
-		green: "#c0ff70",
-		white: "#ffffff"
-	};
 
-	var initialize = function() {
-		initializeEvents();
-		$(".seoTitleTag").each(function() {
-			checkTitleTag($(this));
-		});
-		$(".seoKeywords").each(function() {
-			checkKeywords($(this));
-		});
-		$(".seoDescription").each(function() {
-			checkDescription($(this));
-		});
-	};
+define(['jquery'], function ($) {
+  'use strict';
 
-	var initializeEvents = function() {
-		$(document).on("keyup keypress", ".seoTitleTag", function() {
-			checkTitleTag($(this));
-		}).on("keyup keypress", ".seoKeywords", function() {
-			checkKeywords($(this));
-		}).on("keyup keypress", ".seoDescription", function() {
-			checkDescription($(this));
-		});
-	};
+  /**
+   * @exports TYPO3/CMS/ContenthubConnector/SeoModule
+   */
+  var SeoModule = {};
 
-	var checkTitleTag = function($formField) {
-		var size = $formField.val().length;
-		var color = "green";
-		if (size > 65) { color = "red"; }
-		if (size < 50) { color = "yellow"; }
-		if (size == 0) { color = "white"; }
-		$formField.css({backgroundColor: seoColor[color]});
-	};
+  /**
+   * Initialize markup with class chc-module-rfq and hide/collapse buttons for translation collections
+   */
+  SeoModule.initializeMarkupTrigger = function () {
+    var seoProperties = {
+      ok: {
+        color: '#c0ff70',
+        cssClass: 'has-success'
+      },
+      needsWork: {
+        color: '#ffff70',
+        cssClass: 'has-warning'
+      },
+      poor: {
+        color: '#ff8040',
+        cssClass: 'has-error'
+      },
+      clear: {
+        color: 'white'
+      }
+    };
 
-	var checkKeywords = function($formField) {
-		var numKeywords = 0;
-		var val = $formField.val();
-		if (val.length) {
-			numKeywords = 1;
-			var keywords = val.match(/,/gi);
-			if (keywords) { numKeywords = keywords.length+1; }
-		}
-		var color = "green";
-		if (numKeywords > 6) { color = "red"; }
-		if (numKeywords < 2)  { color = "yellow"; }
-		if (numKeywords < 1)  { color = "white"; }
-		$formField.css({backgroundColor: seoColor[color]});
-	};
+    var seoClassesArray = [];
 
-	var checkDescription = function($formField) {
-		var size = $formField.val().length;
-		var color = "green";
-		if (size > 150)  { color = "red"; }
-		if (size < 115)  { color = "yellow"; }
-		if (size ==  0)  { color = "white"; }
-		$formField.css({backgroundColor: seoColor[color]});
-	};
+    for (var prop in seoProperties) {
+      if (typeof seoProperties[prop].cssClass !== 'undefined') {
+        seoClassesArray.push(seoProperties[prop].cssClass);
+      }
+    }
 
+    var seoClasses = seoClassesArray.join(' ');
 
-	$(document).ready(function() {
-		initialize();
-	});
+    function checkTitleTag() {
+      var $group = $(this).parent();
+      var size = $(this).val().length;
+      var seoClass;
 
-})(TYPO3.jQuery);
+      $group.removeClass(seoClasses);
+
+      if (size > 65) {
+        seoClass = 'poor';
+        $group.addClass(seoProperties[seoClass].cssClass);
+      } else if (size < 50 && size > 0) {
+        seoClass = 'needsWork';
+        $group.addClass(seoProperties[seoClass].cssClass);
+      } else if (size === 0) {
+        seoClass = 'clear';
+      } else {
+        seoClass = 'ok';
+        $group.addClass(seoProperties[seoClass].cssClass);
+      }
+
+      $(this).css('backgroundColor', seoProperties[seoClass].color);
+    }
+
+    function checkKeywords() {
+      var $group = $(this).parent();
+      var val = $(this).val();
+      var numKeywords = 0;
+      var seoClass = 'ok';
+
+      $group.removeClass(seoClasses);
+
+      if (val.length > 0) {
+        var keywords = val.match(/,/gi);
+        numKeywords = 1;
+
+        if (keywords) {
+          numKeywords = keywords.length + 1;
+        }
+      }
+
+      if (numKeywords > 6) {
+        seoClass = 'poor';
+        $group.addClass(seoProperties[seoClass].cssClass);
+      } else if (numKeywords === 1) {
+        seoClass = 'needsWork';
+        $group.addClass(seoProperties[seoClass].cssClass);
+      } else if (numKeywords === 0) {
+        seoClass = 'clear';
+      } else {
+        seoClass = 'ok';
+        $group.addClass(seoProperties[seoClass].cssClass);
+      }
+
+      $(this).css('backgroundColor', seoProperties[seoClass].color);
+    }
+
+    function checkDescription() {
+      var $group = $(this).parent();
+      var size = $(this).val().length;
+      var seoClass;
+
+      $group.removeClass(seoClasses);
+
+      if (size > 150) {
+        seoClass = 'poor';
+        $group.addClass(seoProperties[seoClass].cssClass);
+      } else if (size < 115 && size > 0) {
+        seoClass = 'needsWork';
+        $group.addClass(seoProperties[seoClass].cssClass);
+      } else if (size === 0) {
+        seoClass = 'clear';
+      } else {
+        seoClass = 'ok';
+        $group.addClass(seoProperties[seoClass].cssClass);
+      }
+
+      $(this).css('backgroundColor', seoProperties[seoClass].color);
+    }
+
+    var $seo = $('#seo');
+
+    $seo.on('keyup keypress', '.seo-title', checkTitleTag)
+      .on('keyup keypress', '.seo-keywords', checkKeywords)
+      .on('keyup keypress', '.seo-description', checkDescription);
+
+    $seo.find('.seo-title').each(checkTitleTag);
+    $seo.find('.seo-keywords').each(checkKeywords);
+    $seo.find('.seo-description').each(checkDescription);
+  };
+
+  SeoModule.initializeMarkupTrigger(document);
+
+  // expose as global object
+  TYPO3.SeoModule = SeoModule;
+
+  return SeoModule;
+});

@@ -1,0 +1,26 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:flashMessages/>
+
+<h1>
+    <f:translate key="module.title"/>
+</h1>
+
+<f:comment>
+    NOTE: Based on EXT:belog
+
+    This is an ugly workaround.
+    The function module in Web->Info already renders a form tag, and there is
+    no easy way to circumvent this. The page id is needed for the info module
+    that is not extbase based to figure the permissions. Thus, we have to add
+    the page Id manually to hint the info module about that.
+</f:comment>
+<input type="hidden" name="id" value="{constraint.pageId}"/>
+
+<form>
+    <input type="hidden" name="dummy" value="0"/>
+</form>
+
+<f:render section="Main"/>
+
+</html>
